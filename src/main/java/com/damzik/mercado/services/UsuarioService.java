@@ -2,6 +2,7 @@ package com.damzik.mercado.services;
 
 import com.damzik.mercado.DTOs.request.UsuarioRequestDTO;
 import com.damzik.mercado.DTOs.response.UsuarioResponseDTO;
+import com.damzik.mercado.DTOs.response.VendaResponseDTO;
 import com.damzik.mercado.entities.Usuario;
 import com.damzik.mercado.repositories.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;

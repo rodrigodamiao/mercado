@@ -35,4 +35,10 @@ public class VendaController {
     public ResponseEntity<VendaResponseDTO> registrarVenda(@RequestBody @Valid VendaRequestDTO vendaRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.registrarVenda(vendaRequestDTO));
     }
+
+    // Buscar vendas do usuario pelo id
+    @GetMapping("/usuario/{userId}")
+    public ResponseEntity<List<VendaResponseDTO>> getUserVendas(@PathVariable Long userId){
+        return ResponseEntity.ok().body(vendaService.getUserVendas(userId));
+    }
 }

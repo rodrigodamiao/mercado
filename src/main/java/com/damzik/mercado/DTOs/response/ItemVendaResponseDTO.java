@@ -2,6 +2,7 @@ package com.damzik.mercado.DTOs.response;
 
 import com.damzik.mercado.entities.ItemVenda;
 import com.damzik.mercado.entities.Produto;
+import com.damzik.mercado.enums.CategoriaProduto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,14 @@ public class ItemVendaResponseDTO {
 
     private Long produtoId;
     private String nomeProduto;
+    private CategoriaProduto categoriaProduto;
     private int quantidade;
     private BigDecimal precoUnitario;
 
     public ItemVendaResponseDTO(ItemVenda itemVenda){
         this.produtoId = itemVenda.getProduto().getId();
         this.nomeProduto = itemVenda.getProduto().getNome();
+        this.categoriaProduto = itemVenda.getProduto().getCategoria();
         this.quantidade = itemVenda.getQuantidade();
         this.precoUnitario = itemVenda.getPrecoUnitario();
     }

@@ -52,9 +52,18 @@ public class VendaService {
         List<ItemVenda> itemVendas = new ArrayList<>();
 
         for(ItemVendaRequestDTO itemVendaRequestDTO : vendaRequestDTO.getProdutos()){
-            ItemVenda item = new ItemVenda();
+
             Produto produto = produtoRepository.findById(itemVendaRequestDTO.getProdutoId())
                     .orElseThrow(EntityNotFoundException::new);
+
+            if(itemVendaRequestDTO.getQuantidade() > produto.getQuantidadeEstoque()){
+                throw new IllegalArgumentException("Estoque insuficiente para o produto: " + produto.getNome());
+            }
+
+            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - itemVendaRequestDTO.getQuantidade());
+            produtoRepository.save(produto);
+
+            ItemVenda item = new ItemVenda();
             item.setProduto(produto);
             item.setQuantidade(itemVendaRequestDTO.getQuantidade());
             item.setPrecoUnitario(produto.getPreco());
@@ -71,10 +80,19 @@ public class VendaService {
         venda.setProdutos(itemVendas);
         venda.setPrecoTotal(precoTotal);
 
-
         Venda salvo = vendaRepository.save(venda);
 
         return new VendaResponseDTO(salvo);
+    }
+
+    // Buscar vendas do usuario pelo id
+    public List<VendaResponseDTO> getUserVendas(Long userId){
+        Usuario user = usuarioRepository.findById(userId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        List<VendaResponseDTO> vendas = user.getVendas().stream().map(VendaResponseDTO::new).toList();
+
+        return vendas;
     }
 
 }
